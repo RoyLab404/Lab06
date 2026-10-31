@@ -1,0 +1,63 @@
+
+Thanks for using JUnit! Support its development at https://junit.org/sponsoring
+
+╷
+├─ JUnit Platform Suite ✔
+├─ JUnit Jupiter ✔
+│  └─ Exercise11 ✔
+│     ├─ testEmpty_True() ✔
+│     ├─ testDraw_SecondEmpty() ✘ java.lang.AssertionError
+│     ├─ testEmpty_False_FirstEmpty() ✔
+│     ├─ testEmpty_False_NeitherEmpty() ✔
+│     ├─ testDraw_FirstEmpty() ✘ java.lang.AssertionError
+│     ├─ testDraw_NeitherEmpty() ✘ expected: <ACE of CLUBS> but was: <TWO of CLUBS>
+│     └─ testEmpty_False_SecondEmpty() ✔
+└─ JUnit Vintage ✔
+
+Failures (3):
+  JUnit Jupiter:Exercise11:testDraw_SecondEmpty()
+    MethodSource [className = 'designbook.solutions5.Exercise11', methodName = 'testDraw_SecondEmpty', methodParameterTypes = '']
+    => java.lang.AssertionError
+       designbook.solutions5.Exercise11$CardSourceStub.draw(Exercise11.java:31)
+       designbook.solutions5.BiCardSource.draw(Exercise11.java:101)
+       designbook.solutions5.Exercise11.testDraw_SecondEmpty(Exercise11.java:76)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+  JUnit Jupiter:Exercise11:testDraw_FirstEmpty()
+    MethodSource [className = 'designbook.solutions5.Exercise11', methodName = 'testDraw_FirstEmpty', methodParameterTypes = '']
+    => java.lang.AssertionError
+       designbook.solutions5.Exercise11$CardSourceStub.draw(Exercise11.java:31)
+       designbook.solutions5.BiCardSource.draw(Exercise11.java:104)
+       designbook.solutions5.Exercise11.testDraw_FirstEmpty(Exercise11.java:71)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+  JUnit Jupiter:Exercise11:testDraw_NeitherEmpty()
+    MethodSource [className = 'designbook.solutions5.Exercise11', methodName = 'testDraw_NeitherEmpty', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: expected: <ACE of CLUBS> but was: <TWO of CLUBS>
+       org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+       org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+       org.junit.jupiter.api.AssertSame.failNotSame(AssertSame.java:50)
+       org.junit.jupiter.api.AssertSame.assertSame(AssertSame.java:35)
+       org.junit.jupiter.api.AssertSame.assertSame(AssertSame.java:30)
+       org.junit.jupiter.api.Assertions.assertSame(Assertions.java:2860)
+       designbook.solutions5.Exercise11.testDraw_NeitherEmpty(Exercise11.java:81)
+       java.base/java.lang.reflect.Method.invoke(Method.java:565)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+Test run finished after 65 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         7 tests found           ]
+[         0 tests skipped         ]
+[         7 tests started         ]
+[         0 tests aborted         ]
+[         4 tests successful      ]
+[         3 tests failed          ]
+
