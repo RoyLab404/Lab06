@@ -159,21 +159,7 @@ Bảng trong ảnh cho thấy **instruction coverage của toàn project là 90,
 
 **Giới hạn minh chứng:** ảnh đang hiển thị bộ đếm **Instructions**, chưa hiển thị số đo **Branches** riêng của `BiCardSource`. Vì vậy ảnh xác nhận 7 test đạt và việc thực thi mã sau sửa; kết luận 100% branch coverage ở mục 6 dựa trên phân tích các nhánh. Để bổ sung số đo trực tiếp, chuyển Coverage view sang **Branches**, mở rộng `Exercise11.java` và chọn riêng lớp `BiCardSource`.
 
-## 8. Chạy và trình bày trên Eclipse
-
-Project đã có `.project` tên `Lab06`, `.classpath` dùng JavaSE-25 và JUnit 5, cùng thiết lập UTF-8.
-
-1. Chọn **File → Import → General → Existing Projects into Workspace**.
-2. Chọn thư mục `Practice/Lab06`, đánh dấu project **Lab06**, rồi **Finish**. Nếu đang dùng workspace `Practice`, bỏ chọn **Copy projects into workspace** để dùng đúng thư mục hiện tại.
-3. Trong **Project → Properties → Java Build Path**, kiểm tra JRE là JDK 25 và có **JUnit 5**. Nếu thiếu, dùng **Add Library → JUnit → JUnit 5**; nếu JRE báo lỗi, chọn một JDK 25 đã cài trong **Installed JREs**.
-4. Mở `src/designbook/solutions5/Exercise11.java`, chuột phải → **Run As → JUnit Test**. Trong **Run Configurations → JUnit → Arguments**, đặt VM arguments là `-ea` để khớp thực nghiệm.
-5. Mã hiện tại đã sửa và sẽ cho kết quả 7 test đạt, tương ứng hình 3 và hình 4.
-6. Để tái hiện lỗi gốc, tạm đổi nhánh `if` sang `return aSource2.draw()` và nhánh `else` sang `return aSource1.draw()`, lưu rồi chạy lại: ba test của `draw()` sẽ thất bại. Sau khi trình diễn, đổi lại theo mục 5 để giữ bản đã sửa.
-7. Nếu Eclipse có EclEmma, chuột phải lớp test → **Coverage As → JUnit Test**. Nếu chưa có, cài **EclEmma Java Code Coverage** qua Eclipse Marketplace và dùng phiên bản hỗ trợ Java 25. Trong Coverage view, mở riêng **BiCardSource** (nằm cùng file `Exercise11.java`) và chọn bộ đếm **Branches** để kiểm tra; không lấy phần trăm của toàn project làm kết quả của bài.
-
-Khi thuyết trình, có thể trình bày theo trình tự: đặc tả hai nguồn → stub tạo trạng thái xác định → bốn test `isEmpty()` và ba test `draw()` → ba lỗi của mã gốc → đổi hai nguồn và chạy lại → giải thích các nhánh đã được bao phủ.
-
-## 9. Tài liệu tham khảo
+## 8. Tài liệu tham khảo
 
 - [Đề Chapter 5, Exercise 11](https://github.com/prmr/DesignBook/blob/master/exercises/e-chapter5.md).
 - [Lời giải chính thức Exercise 11](https://codesample.info/samples/designbook/solutions5/Exercise11.html).
