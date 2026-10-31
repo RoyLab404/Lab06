@@ -96,10 +96,10 @@ class BiCardSource implements CardSource {
 	@Override
 	public Card draw() {
 		if (!aSource1.isEmpty()) {
-			return aSource2.draw();
+			return aSource1.draw();
 		}
 		else {
-			return aSource1.draw();
+			return aSource2.draw();
 		}
 	}
 

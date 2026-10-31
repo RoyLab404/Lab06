@@ -94,7 +94,7 @@ public Card draw() {
 }
 ```
 
-Sau thay đổi, nguồn 1 được ưu tiên và nguồn 2 đóng vai trò dự phòng. File trong `src` vẫn giữ lỗi gốc để có thể trình diễn việc test phát hiện lỗi. Bản sửa chỉ được tạo trong thư mục tạm khi thực nghiệm, không thay thế mã lời giải gốc trong Lab06.
+Sau thay đổi, nguồn 1 được ưu tiên và nguồn 2 đóng vai trò dự phòng. Mã trong `src` hiện là bản đã sửa hai lệnh trả về, tương ứng với kết quả 7 test đạt trong ảnh minh chứng. Các ảnh trước sửa và log `logs/original.txt` ghi lại lỗi của mã gốc.
 
 ## 6. Phân tích độ bao phủ nhánh
 
@@ -116,7 +116,7 @@ Theo cách đếm các nhánh điều kiện trong bytecode thông thường, `d
 
 ## 7. Kết quả thực nghiệm
 
-Đã biên dịch và chạy bằng Java 25, JUnit Platform Console Standalone 1.11.4 (JUnit Jupiter), có bật `-ea`:
+Kết quả chạy dòng lệnh bằng Java 25, JUnit Platform Console Standalone 1.11.4 (JUnit Jupiter), có bật `-ea`, được lưu lại để đối chiếu:
 
 | Phiên bản | Tổng test | Đạt | Lỗi |
 |---|---:|---:|---:|
@@ -125,7 +125,39 @@ Theo cách đếm các nhánh điều kiện trong bytecode thông thường, `d
 
 Log đầy đủ nằm ở [logs/original.txt](logs/original.txt) và [logs/corrected-experiment.txt](logs/corrected-experiment.txt). Với mã gốc, hai test rút từ nguồn rỗng báo `AssertionError`; test cả hai nguồn còn bài báo nhận TWO thay vì ACE.
 
-Đây là kết quả chạy JUnit bằng dòng lệnh, **chưa phải kết quả thao tác trực tiếp trên Eclipse**. Phần 100% ở trên là phân tích nhánh từ mã; chưa có số đo EclEmma được xuất trong môi trường này.
+### 7.1. Mã gốc: phát hiện ba test thất bại
+
+![Mã gốc chạy trên Eclipse: 7 test, 3 failures, kèm bảng instruction coverage](images/01-original-coverage.png)
+
+*Hình 1. Kết quả chạy mã gốc bằng JUnit 5 và coverage trên Eclipse.*
+
+JUnit hiển thị **Runs: 7/7, Errors: 0, Failures: 3**. Bốn test của `isEmpty()` đạt; ba test của `draw()` thất bại. Bảng Coverage ở phía dưới đang đếm **Instructions**, với toàn project đạt **86,8%**. Số liệu này mô tả mức thực thi lệnh, không có nghĩa mã đã đúng.
+
+### 7.2. Xem chi tiết lỗi rút từ nguồn rỗng
+
+![Failure Trace của testDraw_SecondEmpty báo AssertionError](images/02-original-failure.png)
+
+*Hình 2. Failure Trace khi chọn `testDraw_SecondEmpty`.*
+
+Nguồn 1 chứa ACE, nguồn 2 rỗng nhưng mã gốc lại rút từ nguồn 2. `CardSourceStub.draw()` phát hiện vi phạm tiền điều kiện và phát sinh `java.lang.AssertionError`. Trace đi qua stub, `BiCardSource.draw()` và phương thức test, giúp lần theo vị trí gây lỗi. Trong JUnit view, đây được ghi nhận là một **failure**; vì vậy ảnh vẫn hiển thị **Errors: 0**.
+
+### 7.3. Sau khi đổi lại hai nguồn: cả bảy test đạt
+
+![Bảy test đạt sau khi sửa hai lệnh return trong draw](images/03-fixed-tests.png)
+
+*Hình 3. Mã `draw()` đã sửa và thanh kết quả JUnit màu xanh.*
+
+Ảnh cho thấy nhánh `if` trả về `aSource1.draw()`, nhánh `else` trả về `aSource2.draw()`. Chạy lại cùng bộ test cho kết quả **Runs: 7/7, Errors: 0, Failures: 0**. Việc giữ nguyên test và chỉ đổi hai lệnh trả về cho thấy lỗi nằm ở cách chọn nguồn trong `draw()`.
+
+### 7.4. Chạy coverage sau khi sửa
+
+![Kết quả coverage trên Eclipse sau sửa: 7 test đạt và các dòng BiCardSource được thực thi](images/04-fixed-coverage.png)
+
+*Hình 4. JUnit đạt toàn bộ test; Eclipse tô xanh các dòng được thực thi trong `BiCardSource`.*
+
+Bảng trong ảnh cho thấy **instruction coverage của toàn project là 90,6%**, còn dòng **`Exercise11.java` là 97,8%**. File này chứa cả lớp test, stub và `BiCardSource`, nên không thể dùng phần trăm của file thay cho phần trăm của riêng lớp cần kiểm thử. Các dòng của constructor, hai nhánh `draw()` và `isEmpty()` đều được tô xanh.
+
+**Giới hạn minh chứng:** ảnh đang hiển thị bộ đếm **Instructions**, chưa hiển thị số đo **Branches** riêng của `BiCardSource`. Vì vậy ảnh xác nhận 7 test đạt và việc thực thi mã sau sửa; kết luận 100% branch coverage ở mục 6 dựa trên phân tích các nhánh. Để bổ sung số đo trực tiếp, chuyển Coverage view sang **Branches**, mở rộng `Exercise11.java` và chọn riêng lớp `BiCardSource`.
 
 ## 8. Chạy và trình bày trên Eclipse
 
@@ -135,8 +167,8 @@ Project đã có `.project` tên `Lab06`, `.classpath` dùng JavaSE-25 và JUnit
 2. Chọn thư mục `Practice/Lab06`, đánh dấu project **Lab06**, rồi **Finish**. Nếu đang dùng workspace `Practice`, bỏ chọn **Copy projects into workspace** để dùng đúng thư mục hiện tại.
 3. Trong **Project → Properties → Java Build Path**, kiểm tra JRE là JDK 25 và có **JUnit 5**. Nếu thiếu, dùng **Add Library → JUnit → JUnit 5**; nếu JRE báo lỗi, chọn một JDK 25 đã cài trong **Installed JREs**.
 4. Mở `src/designbook/solutions5/Exercise11.java`, chuột phải → **Run As → JUnit Test**. Trong **Run Configurations → JUnit → Arguments**, đặt VM arguments là `-ea` để khớp thực nghiệm.
-5. Mã gốc sẽ hiện 7 test, trong đó 3 test lỗi. Chọn từng test lỗi trong JUnit view để đối chiếu với phần 5.
-6. Để minh họa bước sửa, đổi lại hai câu `return` theo đoạn mã ở phần 5, lưu và chạy lại. Kết quả mong đợi là 7 test đạt. Có thể hoàn tác hai dòng sau khi trình diễn để giữ nguyên mẫu ban đầu.
+5. Mã hiện tại đã sửa và sẽ cho kết quả 7 test đạt, tương ứng hình 3 và hình 4.
+6. Để tái hiện lỗi gốc, tạm đổi nhánh `if` sang `return aSource2.draw()` và nhánh `else` sang `return aSource1.draw()`, lưu rồi chạy lại: ba test của `draw()` sẽ thất bại. Sau khi trình diễn, đổi lại theo mục 5 để giữ bản đã sửa.
 7. Nếu Eclipse có EclEmma, chuột phải lớp test → **Coverage As → JUnit Test**. Nếu chưa có, cài **EclEmma Java Code Coverage** qua Eclipse Marketplace và dùng phiên bản hỗ trợ Java 25. Trong Coverage view, mở riêng **BiCardSource** (nằm cùng file `Exercise11.java`) và chọn bộ đếm **Branches** để kiểm tra; không lấy phần trăm của toàn project làm kết quả của bài.
 
 Khi thuyết trình, có thể trình bày theo trình tự: đặc tả hai nguồn → stub tạo trạng thái xác định → bốn test `isEmpty()` và ba test `draw()` → ba lỗi của mã gốc → đổi hai nguồn và chạy lại → giải thích các nhánh đã được bao phủ.
